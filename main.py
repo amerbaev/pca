@@ -1,7 +1,6 @@
 from sklearn.preprocessing import StandardScaler, normalize
 from sklearn.decomposition import PCA
 from sklearn.datasets import load_digits, load_breast_cancer, load_wine
-import numpy as np
 
 
 def kaiser(vals):
@@ -22,11 +21,17 @@ def broken_stick(vals):
     return n_comp
 
 
-if __name__ == '__main__':
-    X = load_digits().data
-    print('Размерность данных:', len(X[0]))
-    X_cent = StandardScaler().fit_transform(X)
-    pca = PCA(svd_solver='full').fit(X_cent)
+def process_dataset(x, name):
+    print(name)
+    print('Размерность данных:', len(x.data[0]))
+    x_cent = StandardScaler().fit_transform(x.data)
+    pca = PCA(svd_solver='full')
+    pca.fit(x_cent)
     print('Главных компонент по правилу кайзера: ', kaiser(pca.explained_variance_))
-    print('Главных компонент по правилу сломанной трости: ', broken_stick(pca.explained_variance_))
+    print('Главных компонент по правилу сломанной трости: ', broken_stick(pca.explained_variance_), end='\n\n')
+
+
+if __name__ == '__main__':
+    for X, dset_name in ((load_digits(), 'Цифры'), (load_breast_cancer(), 'Рак'), (load_wine(), 'Вина')):
+        process_dataset(X, dset_name)
 
