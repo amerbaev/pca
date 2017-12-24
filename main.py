@@ -35,6 +35,7 @@ def process_dataset(x, name):
     print('Главных компонент по правилу кайзера: ', kaiser_size)
     print('Главных компонент по правилу сломанной трости: ', broken_size, end='\n\n')
 
+    plt.legend(name)
     plt.xlabel('Номер компоненты')
     plt.ylabel('% дисперсии')
     plt.bar(range(len(pca.explained_variance_ratio_)), pca.explained_variance_ratio_ * 100)
